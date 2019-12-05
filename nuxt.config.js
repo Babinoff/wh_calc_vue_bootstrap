@@ -48,8 +48,15 @@ export default {
   */
   modules: [
     // Doc: https://bootstrap-vue.js.org
-    'bootstrap-vue/nuxt',
+	'bootstrap-vue/nuxt',
   ],
+  bootstrapVue: {
+	bootstrapCSS: false, 
+	bootstrapVueCSS: false
+  },
+  css: [
+	  '@/assets/scss/custom.scss'
+	],
   /*
   ** Build configuration
   */
