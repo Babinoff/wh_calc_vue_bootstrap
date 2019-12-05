@@ -169,7 +169,7 @@ function poll_funct(data_form) {
 		else {
 			text_answer += "\n Слишком большое значение атак,\n максимальное количество атак 100 \n";
 		}
-	return string_list;
+	return text_answer;
 }
 
 
