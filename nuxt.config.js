@@ -1,6 +1,6 @@
 const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
 	router: {
-	  base: '/wh_calc_vue/'
+	  base: '/wh_calc_vue_bootstrap/'
 	}
   } : {}
 
