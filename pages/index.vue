@@ -76,7 +76,7 @@
 	<b-row class="">
 		Results:
 	</b-row>
-	<b-table striped hover :items="items"></b-table>
+	<b-table fixed sticky-header head-variant="dark" striped hover :items="items"></b-table>
 
 	<b-row class="text-center bg-secondary text-light">
 		<b-col>{{ new_data }}</b-col>
@@ -103,7 +103,7 @@ export default {
 		v_slct_arm: 'No',
 		v_slct_fnp: 'No',
 		new_data: "",
-		items: [{age:"1"},{age:"2"},{age:"3"}]
+		items: [{wound:"", from:'', to:""}]
 	}
   },
 	methods: {
@@ -111,20 +111,25 @@ export default {
 			const data_form = [this.input_atacs,this.v_slct_hit,this.v_slct_wound,this.v_slct_arm,this.v_slct_fnp]
 			// const data_to_funct = []
 			// data_to_funct.push(data_form[0])
-			const result = poll_funct(data_form)
-			this.new_data = result
-			this.items = result
+			const result_and_answer = poll_funct(data_form)
+			this.new_data = result_and_answer[1]
+			this.items = result_and_answer[0]
+			// this.items = [{wound:"1", from: '0', to: "10" },{wound:"2", from: '10', to: "5" },{wound:"3", from: '50', to: "100" }]
 			// let { list_of_str, i_atk, i_hit, i_wnd, i_arm, i_fnp, dice_to_hit, dice_to_wund, dice_armor_save, dice_fnp } = param_funct(data_form);
-			console.log(result)
+			console.log(result_and_answer)
 			// console.log([this.v_slct_hit,this.v_slct_wound,this.v_slct_arm,this.v_slct_fnp,this.input_atacs])
 		}
 	}
 }
 
+function result_pack(wound_value, from_value, to_value){
+	return {wound: wound_value, from: from_value, to: to_value}
+}
+
 //#region comands functions
 function poll_funct(data_form) {
 	let text_answer = ""
-	let string_list = [""];
+	let string_list = [];
 	let dice_to_hit = { "1+": 1, "2+": 100 / 6 * 5 / 100, "3+": 100 / 6 * 4 / 100, "4+": 100 / 6 * 3 / 100, "5+": 100 / 6 * 2 / 100, "6+": 100 / 6 * 1 / 100 };
 	let dice_to_wund = { "1+": 6, "2+": 5, "3+": 4, "4+": 3, "5+": 2, "6+": 1 };
 	let dice_armor_save = { "No": null, "2+": 1, "3+": 2, "4+": 3, "5+": 4, "6+": 5 };
@@ -155,21 +160,32 @@ function poll_funct(data_form) {
 				// test_text += "\n itogo_float = " + itogo_float; // TEST TEXT 
 				ok_nums_list.push([itogo_int, itogo_float]);
 			}
+			let hundred_from = 0
+			let hundred_wound = 0
 			for (const [i, num] of ok_nums_list.entries()) {
 				if (i == 0) {
-					string_list.push(i + " wound s 0" + " to " + ok_nums_list[0][0]);
+					// string_list.push(i + " wound s 0" + " to " + ok_nums_list[0][0]);
+					string_list.push(result_pack(i, 0, ok_nums_list[0][0]))
 				}
 				else {
-					string_list.push(i + " wound s " + ok_nums_list[i - 1][0] + " to " + num[0]);
+					// string_list.push(i + " wound s " + ok_nums_list[i - 1][0] + " to " + num[0]);
+					if (ok_nums_list[i - 1][0] != 100 && num[0] === 100){
+						hundred_from = ok_nums_list[i - 1][0]
+						hundred_wound = i
+					}
+					else{ if (ok_nums_list[i - 1][0] != 100 && num[0] != 100) {
+						string_list.push(result_pack(i, ok_nums_list[i - 1][0], num[0]))	
+					}}
+					// string_list.push(result_pack(i, ok_nums_list[i - 1][0], num[0]))
 				}
-
 			}
-			text_answer += string_list.join("\n");
+			string_list.push(result_pack(hundred_wound +" - "+ i_atk, hundred_from, 100))
+			// text_answer += string_list.join("\n");
 		}
 		else {
 			text_answer += "\n Слишком большое значение атак,\n максимальное количество атак 100 \n";
 		}
-	return text_answer;
+	return [string_list, text_answer];
 }
 
 
