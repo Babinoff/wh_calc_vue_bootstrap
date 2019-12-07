@@ -135,7 +135,7 @@ function poll_funct(data_form) {
 	let dice_armor_save = { "No": null, "2+": 1, "3+": 2, "4+": 3, "5+": 4, "6+": 5 };
 	let dice_fnp = { "No": null, "2+": 1, "3+": 2, "4+": 3, "5+": 4, "6+": 5 };
 	const i_atk = to_int(data_form[0]);
-		if (i_atk <= 100){
+		if (i_atk <= 100) {
 			const i_hit = data_form[1]
 			const i_wnd = data_form[2]
 			const i_arm = data_form[3]
@@ -160,28 +160,43 @@ function poll_funct(data_form) {
 				// test_text += "\n itogo_float = " + itogo_float; // TEST TEXT 
 				ok_nums_list.push([itogo_int, itogo_float]);
 			}
+			let zero_to = 0
+			let zero_wound = 0
 			let hundred_from = 0
 			let hundred_wound = 0
 			for (const [i, num] of ok_nums_list.entries()) {
-				if (i == 0) {
-					// string_list.push(i + " wound s 0" + " to " + ok_nums_list[0][0]);
-					string_list.push(result_pack(i, 0, ok_nums_list[0][0]))
+				// if (i != 0 && ok_nums_list[0][0] == 0) {
+				// 	// string_list.push(i + " wound s 0" + " to " + ok_nums_list[0][0]);
+				// 	// string_list.push(result_pack(i, 0, ok_nums_list[0][0]))
+				// 	zero_wound = i
+				// }
+				// else if (i == 0 && ok_nums_list[0][0] != 0) {
+				// 	string_list.push(result_pack(i, 0, ok_nums_list[0][0]))
+				// }
+				if (num[0] == 0){
+					// string_list.push(result_pack(i, 0, num[0]))
+					zero_wound = i
 				}
-				else {
+				else if (i != 0 && ok_nums_list[i - 1][0] == 0) {
+					zero_to = num[0]
+				}
+				else if (i != 0 && ok_nums_list[i - 1][0] != 100 && num[0] == 100) {
 					// string_list.push(i + " wound s " + ok_nums_list[i - 1][0] + " to " + num[0]);
-					if (ok_nums_list[i - 1][0] != 100 && num[0] === 100){
 						hundred_from = ok_nums_list[i - 1][0]
 						hundred_wound = i
 					}
-					else{ if (ok_nums_list[i - 1][0] != 100 && num[0] != 100) {
-						string_list.push(result_pack(i, ok_nums_list[i - 1][0], num[0]))	
-					}}
+				else if (i != 0 && ok_nums_list[i - 1][0] != 100 && num[0] != 100) {
+					string_list.push(result_pack(i, ok_nums_list[i - 1][0], num[0]))	
+				}
+				else {
+
+				}
 					// string_list.push(result_pack(i, ok_nums_list[i - 1][0], num[0]))
 				}
-			}
+			string_list.unshift(result_pack(0 +" - "+ zero_wound, 0, zero_to))
 			string_list.push(result_pack(hundred_wound +" - "+ i_atk, hundred_from, 100))
+			}
 			// text_answer += string_list.join("\n");
-		}
 		else {
 			text_answer += "\n Слишком большое значение атак,\n максимальное количество атак 100 \n";
 		}
