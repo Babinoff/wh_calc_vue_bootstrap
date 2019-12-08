@@ -156,7 +156,7 @@ function poll_funct(data_form) {
 				brnpsum.push(brn_f);
 				let itogo_int = to_int(Math.round(brnpsum.reduce(reducer)));
 				// test_text += "\n itogo_int = " + itogo_int; // TEST TEXT
-				let itogo_float = brnpsum.reduce(reducer);
+				let itogo_float = to_float_two(brnpsum.reduce(reducer));
 				// test_text += "\n itogo_float = " + itogo_float; // TEST TEXT 
 				ok_nums_list.push([itogo_int, itogo_float]);
 			}
@@ -178,15 +178,15 @@ function poll_funct(data_form) {
 					zero_wound = i
 				}
 				else if (i != 0 && ok_nums_list[i - 1][0] == 0) {
-					zero_to = num[0]
+					zero_to = num[1]
 				}
 				else if (i != 0 && ok_nums_list[i - 1][0] != 100 && num[0] == 100) {
 					// string_list.push(i + " wound s " + ok_nums_list[i - 1][0] + " to " + num[0]);
-						hundred_from = ok_nums_list[i - 1][0]
+						hundred_from = ok_nums_list[i - 1][1]
 						hundred_wound = i
 					}
 				else if (i != 0 && ok_nums_list[i - 1][0] != 100 && num[0] != 100) {
-					string_list.push(result_pack(i, ok_nums_list[i - 1][0], num[0]))	
+					string_list.push(result_pack(i, ok_nums_list[i - 1][1], num[1]))	
 				}
 				else {
 
@@ -250,6 +250,10 @@ function dice_drop(dice_to_hit, dice_to_wund, dice_armor_save, dice_fnp) {
 
 function to_int(string) {
 	return parseInt(string, 10)
+}
+
+function to_float_two(string) {
+	return string.toFixed(2)
 }
 
 

@@ -4,12 +4,19 @@ const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
 	}
   } : {}
 
+  const routerBase_lur = process.env.DEPLOY_ENV === 'GH_PAGES_lur' ? {
+	router: {
+	  base: '/wh_calc/'
+	}
+  } : {}
+
 export default {
   mode: 'spa',
   /*
   ** Headers of the page
   */
  ...routerBase,
+ ...routerBase_lur,
  generate: {
 	dir: 'docs',
   },
