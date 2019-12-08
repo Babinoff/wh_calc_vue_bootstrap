@@ -3,7 +3,7 @@
   <b-container>
 	<b-row class="">
 	<h1 class="text-center w-100 p-3 bg-secondary text-light">Warhammer Bernuly Calculator</h1>
-	</b-row class=" ">
+	</b-row>
 	<form class=" " id="id_form">Number of attacks:
 		<b-row class=" ">
 			<b-form-input class="input" placeholder="attack counter" v-model="input_atacs"></b-form-input>
