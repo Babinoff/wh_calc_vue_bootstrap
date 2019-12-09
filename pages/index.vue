@@ -173,7 +173,7 @@ function poll_funct(data_form) {
 				// else if (i == 0 && ok_nums_list[0][0] != 0) {
 				// 	string_list.push(result_pack(i, 0, ok_nums_list[0][0]))
 				// }
-				let current_num = num[1]
+				let current_num = num[0]
 				if (i != 0) {
 					let num_minus_one = ok_nums_list[i - 1][0]
 				}
