@@ -10,6 +10,12 @@ const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
 	}
   } : {}
 
+  const dir_lur = process.env.DEPLOY_ENV === 'GH_PAGES_lur' ? {
+	generate: {
+		dir: 'docs_lur'
+	}
+  } : {}
+
 export default {
   mode: 'spa',
   /*
@@ -18,8 +24,9 @@ export default {
  ...routerBase,
  ...routerBase_lur,
  generate: {
-	dir: 'docs',
+	dir: 'docs'
   },
+...dir_lur,
   head: {
     title: process.env.npm_package_name || '',
     meta: [

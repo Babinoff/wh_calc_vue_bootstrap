@@ -173,20 +173,24 @@ function poll_funct(data_form) {
 				// else if (i == 0 && ok_nums_list[0][0] != 0) {
 				// 	string_list.push(result_pack(i, 0, ok_nums_list[0][0]))
 				// }
-				if (num[0] == 0){
+				let current_num = num[1]
+				if (i != 0) {
+					let num_minus_one = ok_nums_list[i - 1][0]
+				}
+				if (current_num == 0){
 					// string_list.push(result_pack(i, 0, num[0]))
 					zero_wound = i
 				}
 				else if (i != 0 && ok_nums_list[i - 1][0] == 0) {
-					zero_to = num[1]
+					zero_to = current_num
 				}
-				else if (i != 0 && ok_nums_list[i - 1][0] != 100 && num[0] == 100) {
+				else if (i != 0 && ok_nums_list[i - 1][0] != 99 && current_num == 100) {
 					// string_list.push(i + " wound s " + ok_nums_list[i - 1][0] + " to " + num[0]);
-						hundred_from = ok_nums_list[i - 1][1]
+						hundred_from = ok_nums_list[i - 1][0]
 						hundred_wound = i
 					}
-				else if (i != 0 && ok_nums_list[i - 1][0] != 100 && num[0] != 100) {
-					string_list.push(result_pack(i, ok_nums_list[i - 1][1], num[1]))	
+				else if (i != 0 && ok_nums_list[i - 1][0] != 100 && current_num != 100) {
+					string_list.push(result_pack(i, ok_nums_list[i - 1][0], current_num))	
 				}
 				else {
 
