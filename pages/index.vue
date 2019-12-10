@@ -125,6 +125,7 @@ export default {
 	}
 }
 
+// pakc value to dict
 function result_pack(wound_value, from_value, to_value){
 	return {wound: wound_value, from: from_value, to: to_value}
 }
@@ -143,24 +144,25 @@ function poll_funct(data_form) {
 			const i_wnd = data_form[2]
 			const i_arm = data_form[3]
 			const i_fnp = data_form[4]
-			let atk = i_atk;
-			let hit = dice_to_hit[i_hit];
-			let wnd = dice_to_wund[i_wnd];
-			let arm = dice_armor_save[i_arm];
-			let fnp = dice_fnp[i_fnp];
-			let brn_p = dice_drop(hit, wnd, arm, fnp);
+			const atk = i_atk;
+			const hit = dice_to_hit[i_hit];
+			const wnd = dice_to_wund[i_wnd];
+			const arm = dice_armor_save[i_arm];
+			const fnp = dice_fnp[i_fnp];
+			const brn_p = dice_drop(hit, wnd, arm, fnp);
 			// test_text += "\n brn_p = " + brn_p; // TEST TEXT
 			let ok_nums_list = [[0],[0]];
 			let brnpsum = [];
-			let n = atk;
+			const n = atk;
 			const reducer = (accumulator, currentValue) => accumulator + currentValue;
 			for (const k of Array(atk + 1).keys()) { //+1 нужно из за начала списка с 0
-				let brn_f = 100 * brn(brn_p, k, n);
-				console.log(brn_f)
+				const brn_f = 100 * brn(brn_p, k, n);
+				// console.log(brn_f)
 				brnpsum.push(brn_f);
-				let brn_reduce = brnpsum.reduce(reducer)
-				let itogo_int = to_int(Math.round(brn_reduce));
-				let itogo_float = to_float_two(brn_reduce);
+				const brn_reduce = brnpsum.reduce(reducer)
+				const itogo_int = to_int(Math.round(brn_reduce));
+				// let itogo_int = Math.floor(brn_reduce)
+				const itogo_float = to_float_two(brn_reduce);
 				ok_nums_list.push([itogo_int, itogo_float]);
 			}
 			ok_nums_list.shift()
@@ -181,6 +183,7 @@ function poll_funct(data_form) {
 				// }
 				let num_minus_one = 0
 				let current_num = num[0]
+				// Переделать логику для проверки соответвия двух значений и создания 0-10 групп вундов 
 				if (i != 0) {
 					num_minus_one = ok_nums_list[i - 1][0]
 					// console.log(num_minus_one)
@@ -199,6 +202,9 @@ function poll_funct(data_form) {
 						hundred_wound = i
 					}
 				else if (i != 0 && num_minus_one != 100 && current_num != 100) {
+					if (current_num != num_minus_one){
+						num_minus_one += 1
+					}
 					string_list.push(result_pack(i, num_minus_one, current_num))	
 				}
 				else {
