@@ -4,7 +4,10 @@
 	<b-row class="">
 	<h1 class="text-center w-100 p-3 bg-secondary text-light">Warhammer Bernuly Calculator</h1>
 	</b-row>
-	<form class=" " id="id_form">Number of attacks:
+	<form class=" " id="id_form">
+		<b-row class="p-1">
+			Number of attacks:
+		</b-row>
 		<b-row class=" ">
 			<b-form-input class="input" placeholder="attack counter" v-model="input_atacs"></b-form-input>
 		</b-row>
@@ -73,10 +76,10 @@
 	<b-row class="">
 		<b-button block variant="primary" @click='roll()'>ROLL</b-button>
 	</b-row>
-	<b-row class="">
+	<b-row class="p-1">
 		Results:
 	</b-row>
-	<b-table fixed sticky-header head-variant="dark" striped hover :items="items"></b-table>
+	<b-table class="text-center" fixed sticky-header head-variant="dark" striped hover :items="items"></b-table>
 
 	<b-row class="text-center bg-secondary text-light">
 		<b-col>{{ new_data }}</b-col>
@@ -97,9 +100,9 @@ export default {
 },
   data () {
     return {
-		input_atacs: "3",
-		v_slct_hit: '4+',
-		v_slct_wound: '4+',
+		input_atacs: "55",
+		v_slct_hit: '2+',
+		v_slct_wound: '2+',
 		v_slct_arm: 'No',
 		v_slct_fnp: 'No',
 		new_data: "",
@@ -147,23 +150,26 @@ function poll_funct(data_form) {
 			let fnp = dice_fnp[i_fnp];
 			let brn_p = dice_drop(hit, wnd, arm, fnp);
 			// test_text += "\n brn_p = " + brn_p; // TEST TEXT
-			let ok_nums_list = [];
+			let ok_nums_list = [[0],[0]];
 			let brnpsum = [];
 			let n = atk;
 			const reducer = (accumulator, currentValue) => accumulator + currentValue;
 			for (const k of Array(atk + 1).keys()) { //+1 нужно из за начала списка с 0
 				let brn_f = 100 * brn(brn_p, k, n);
+				console.log(brn_f)
 				brnpsum.push(brn_f);
-				let itogo_int = to_int(Math.round(brnpsum.reduce(reducer)));
-				// test_text += "\n itogo_int = " + itogo_int; // TEST TEXT
-				let itogo_float = to_float_two(brnpsum.reduce(reducer));
-				// test_text += "\n itogo_float = " + itogo_float; // TEST TEXT 
+				let brn_reduce = brnpsum.reduce(reducer)
+				let itogo_int = to_int(Math.round(brn_reduce));
+				let itogo_float = to_float_two(brn_reduce);
 				ok_nums_list.push([itogo_int, itogo_float]);
 			}
+			ok_nums_list.shift()
 			let zero_to = 0
 			let zero_wound = 0
 			let hundred_from = 0
 			let hundred_wound = 0
+			let count = 0
+			// console.log(ok_nums_list.length)
 			for (const [i, num] of ok_nums_list.entries()) {
 				// if (i != 0 && ok_nums_list[0][0] == 0) {
 				// 	// string_list.push(i + " wound s 0" + " to " + ok_nums_list[0][0]);
@@ -173,37 +179,42 @@ function poll_funct(data_form) {
 				// else if (i == 0 && ok_nums_list[0][0] != 0) {
 				// 	string_list.push(result_pack(i, 0, ok_nums_list[0][0]))
 				// }
+				let num_minus_one = 0
 				let current_num = num[0]
 				if (i != 0) {
-					let num_minus_one = ok_nums_list[i - 1][0]
+					num_minus_one = ok_nums_list[i - 1][0]
+					// console.log(num_minus_one)
+					count+=1
 				}
 				if (current_num == 0){
 					// string_list.push(result_pack(i, 0, num[0]))
 					zero_wound = i
 				}
-				else if (i != 0 && ok_nums_list[i - 1][0] == 0) {
+				else if (i != 0 && num_minus_one == 0) {
 					zero_to = current_num
 				}
-				else if (i != 0 && ok_nums_list[i - 1][0] != 99 && current_num == 100) {
+				else if (i != 0 && num_minus_one != 100 && current_num == 100) {
 					// string_list.push(i + " wound s " + ok_nums_list[i - 1][0] + " to " + num[0]);
-						hundred_from = ok_nums_list[i - 1][0]
+						hundred_from = num_minus_one
 						hundred_wound = i
 					}
-				else if (i != 0 && ok_nums_list[i - 1][0] != 100 && current_num != 100) {
-					string_list.push(result_pack(i, ok_nums_list[i - 1][0], current_num))	
+				else if (i != 0 && num_minus_one != 100 && current_num != 100) {
+					string_list.push(result_pack(i, num_minus_one, current_num))	
 				}
 				else {
-
+					console.log("how you see this? post me a leter")
 				}
 					// string_list.push(result_pack(i, ok_nums_list[i - 1][0], num[0]))
 				}
 			string_list.unshift(result_pack(0 +" - "+ zero_wound, 0, zero_to))
 			string_list.push(result_pack(hundred_wound +" - "+ i_atk, hundred_from, 100))
+			// console.log(count)
 			}
 			// text_answer += string_list.join("\n");
 		else {
 			text_answer += "\n Слишком большое значение атак,\n максимальное количество атак 100 \n";
 		}
+		
 	return [string_list, text_answer];
 }
 
