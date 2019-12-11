@@ -198,7 +198,7 @@ function poll_funct(data_form) {
 					}
 				}
 				if (f_boll == false){
-					list_of_object.push(create_object(i, current_num, num_minus_one))
+					list_of_object.push(create_object(i, num_minus_one, current_num))
 				}
 
 				if (current_num == 0){
