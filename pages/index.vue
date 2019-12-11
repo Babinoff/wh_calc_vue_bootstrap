@@ -193,7 +193,7 @@ function poll_funct(data_form) {
 				let t_boll = false
 				for (const obj of list_of_object){
 					if (current_num == obj["from"]){
-						obj[i].push(i)
+						obj["atk"].push(i)
 						f_boll = true
 					}
 				}
