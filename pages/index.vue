@@ -125,10 +125,6 @@ export default {
 	}
 }
 
-// pakc value to dict
-function result_pack(wound_value, from_value, to_value){
-	return {wound: wound_value, from: from_value, to: to_value}
-}
 
 //#region comands functions
 function poll_funct(data_form) {
@@ -160,8 +156,8 @@ function poll_funct(data_form) {
 				// console.log(brn_f)
 				brnpsum.push(brn_f);
 				const brn_reduce = brnpsum.reduce(reducer)
-				const itogo_int = to_int(Math.round(brn_reduce));
-				// let itogo_int = Math.floor(brn_reduce)
+				// const itogo_int = to_int(Math.round(brn_reduce));
+				let itogo_int = Math.floor(brn_reduce)
 				const itogo_float = to_float_two(brn_reduce);
 				ok_nums_list.push([itogo_int, itogo_float]);
 			}
@@ -172,6 +168,8 @@ function poll_funct(data_form) {
 			let hundred_wound = 0
 			let count = 0
 			// console.log(ok_nums_list.length)
+			let result_list_test = []
+			let list_of_object = []
 			for (const [i, num] of ok_nums_list.entries()) {
 				// if (i != 0 && ok_nums_list[0][0] == 0) {
 				// 	// string_list.push(i + " wound s 0" + " to " + ok_nums_list[0][0]);
@@ -183,12 +181,26 @@ function poll_funct(data_form) {
 				// }
 				let num_minus_one = 0
 				let current_num = num[0]
+				let i_or_range = i
 				// Переделать логику для проверки соответвия двух значений и создания 0-10 групп вундов 
+				// bootstrap@4.4.1 requires a peer of jquery@1.9.1
 				if (i != 0) {
 					num_minus_one = ok_nums_list[i - 1][0]
 					// console.log(num_minus_one)
 					count+=1
 				}
+				let f_boll = false
+				let t_boll = false
+				for (const obj of list_of_object){
+					if (current_num == obj["from"]){
+						obj[i].push(i)
+						f_boll = true
+					}
+				}
+				if (f_boll == false){
+					list_of_object.push(create_object(i, current_num, num_minus_one))
+				}
+
 				if (current_num == 0){
 					// string_list.push(result_pack(i, 0, num[0]))
 					zero_wound = i
@@ -210,11 +222,13 @@ function poll_funct(data_form) {
 				else {
 					console.log("how you see this? post me a leter")
 				}
+				result_list_test.push([i, num_minus_one, current_num])
+
 					// string_list.push(result_pack(i, ok_nums_list[i - 1][0], num[0]))
 				}
 			string_list.unshift(result_pack(0 +" - "+ zero_wound, 0, zero_to))
 			string_list.push(result_pack(hundred_wound +" - "+ i_atk, hundred_from, 100))
-			// console.log(count)
+			console.log(list_of_object)
 			}
 			// text_answer += string_list.join("\n");
 		else {
@@ -224,6 +238,14 @@ function poll_funct(data_form) {
 	return [string_list, text_answer];
 }
 
+// pakc value to dict
+function result_pack(wound_value, from_value, to_value){
+	return {wound: wound_value, from: from_value, to: to_value}
+}
+
+function create_object(i, from_value, to_value){
+	return {"atk": [i], "from": from_value, "to": to_value}
+}
 
 function roll_funct2(b_text, list_of_str, text_answer, sprt) {
 	list_of_str = b_text.split(sprt);
