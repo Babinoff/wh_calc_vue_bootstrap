@@ -2,7 +2,10 @@
 <body>
   <b-container>
 	<b-row class="">
-	<h1 class="text-center w-100 p-3 bg-secondary text-light">Warhammer Bernuly Calculator</h1>
+	<div class="text-center w-100 p-3 bg-secondary text-light"> Warhammer Bernuly Calculator
+		<!-- v-resize-text="{minFontSize: '50px', maxFontSize: '100px'} -->
+	<!-- <h1 class="text-center w-100 p-3 bg-secondary text-light">Warhammer Bernuly Calculator</h1> -->
+	</div>
 	</b-row>
 	<form class=" " id="id_form">
 		<b-row class="p-1">
@@ -151,7 +154,7 @@ function poll_funct(data_form) {
 			let brnpsum = [];
 			const n = atk;
 			const reducer = (accumulator, currentValue) => accumulator + currentValue;
-			for (const k of Array(atk).keys()) { //+1 нужно из за начала списка с 0
+			for (const k of Array(atk).keys()) {
 				const brn_f = 100 * brn(brn_p, k, n);
 				// console.log(brn_f)
 				brnpsum.push(brn_f);
@@ -167,7 +170,8 @@ function poll_funct(data_form) {
 			let hundred_from = 0
 			let hundred_wound = 0
 			let count = 0
-			// console.log(ok_nums_list.length)
+			console.log(ok_nums_list.length)
+			console.log(ok_nums_list)
 			let result_list_test = []
 			let list_of_object = []
 			for (const [i, num] of ok_nums_list.entries()) {
