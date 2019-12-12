@@ -151,7 +151,7 @@ function poll_funct(data_form) {
 			let brnpsum = [];
 			const n = atk;
 			const reducer = (accumulator, currentValue) => accumulator + currentValue;
-			for (const k of Array(atk + 1).keys()) { //+1 нужно из за начала списка с 0
+			for (const k of Array(atk).keys()) { //+1 нужно из за начала списка с 0
 				const brn_f = 100 * brn(brn_p, k, n);
 				// console.log(brn_f)
 				brnpsum.push(brn_f);
@@ -171,22 +171,13 @@ function poll_funct(data_form) {
 			let result_list_test = []
 			let list_of_object = []
 			for (const [i, num] of ok_nums_list.entries()) {
-				// if (i != 0 && ok_nums_list[0][0] == 0) {
-				// 	// string_list.push(i + " wound s 0" + " to " + ok_nums_list[0][0]);
-				// 	// string_list.push(result_pack(i, 0, ok_nums_list[0][0]))
-				// 	zero_wound = i
-				// }
-				// else if (i == 0 && ok_nums_list[0][0] != 0) {
-				// 	string_list.push(result_pack(i, 0, ok_nums_list[0][0]))
-				// }
 				let num_minus_one = 0
 				let current_num = num[0]
-				let i_or_range = i
+				// let i_or_range = i
 				// Переделать логику для проверки соответвия двух значений и создания 0-10 групп вундов 
 				// bootstrap@4.4.1 requires a peer of jquery@1.9.1
 				if (i != 0) {
 					num_minus_one = ok_nums_list[i - 1][0]
-					// console.log(num_minus_one)
 					count+=1
 				}
 				let f_boll = false
@@ -198,36 +189,48 @@ function poll_funct(data_form) {
 					}
 				}
 				if (f_boll == false){
+					if (num_minus_one != current_num){
+					list_of_object.push(create_object(i, num_minus_one+1, current_num))
+					}
+					else{
 					list_of_object.push(create_object(i, num_minus_one, current_num))
-				}
-
-				if (current_num == 0){
-					// string_list.push(result_pack(i, 0, num[0]))
-					zero_wound = i
-				}
-				else if (i != 0 && num_minus_one == 0) {
-					zero_to = current_num
-				}
-				else if (i != 0 && num_minus_one != 100 && current_num == 100) {
-					// string_list.push(i + " wound s " + ok_nums_list[i - 1][0] + " to " + num[0]);
-						hundred_from = num_minus_one
-						hundred_wound = i
 					}
-				else if (i != 0 && num_minus_one != 100 && current_num != 100) {
-					if (current_num != num_minus_one){
-						num_minus_one += 1
-					}
-					string_list.push(result_pack(i, num_minus_one, current_num))	
 				}
-				else {
-					console.log("how you see this? post me a leter")
-				}
-				result_list_test.push([i, num_minus_one, current_num])
-
+				// if (current_num == 0){
+				// 	zero_wound = i
+				// }
+				// else if (i != 0 && num_minus_one == 0) {
+				// 	zero_to = current_num
+				// }
+				// else if (i != 0 && num_minus_one != 100 && current_num == 100) {
+				// 		hundred_from = num_minus_one
+				// 		hundred_wound = i
+				// 	}
+				// else if (i != 0 && num_minus_one != 100 && current_num != 100) {
+				// 	if (current_num != num_minus_one){
+				// 		num_minus_one += 1
+				// 	}
+				// 	string_list.push(result_pack(i, num_minus_one, current_num))	
+				// }
+				// else {
+				// 	console.log("how you see this? post me a leter")
+				// }
+				// result_list_test.push([i, num_minus_one, current_num])
 					// string_list.push(result_pack(i, ok_nums_list[i - 1][0], num[0]))
 				}
-			string_list.unshift(result_pack(0 +" - "+ zero_wound, 0, zero_to))
-			string_list.push(result_pack(hundred_wound +" - "+ i_atk, hundred_from, 100))
+			for (const [i, obj] of list_of_object.entries()) {
+				const atks = obj["atk"]
+				if (atks.length > 1){
+					const start_atk = atks[0]
+					const end_atk = atks[atks.length-1]
+					string_list.push(result_pack(start_atk +" - "+ end_atk, obj["from"], obj["to"]))
+				}
+				else{
+					string_list.push(result_pack(atks[0], obj["from"], obj["to"]))
+				}
+			}
+			// string_list.unshift(result_pack(0 +" - "+ zero_wound, 0, zero_to))
+			// string_list.push(result_pack(hundred_wound +" - "+ i_atk, hundred_from, 100))
 			console.log(list_of_object)
 			}
 			// text_answer += string_list.join("\n");
