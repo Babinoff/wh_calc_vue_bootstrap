@@ -83,9 +83,12 @@
 		Results:
 	</b-row>
 	<b-table class="text-center" fixed sticky-header head-variant="dark" striped hover :items="items"></b-table>
-
 	<b-row class="text-center bg-secondary text-light">
 		<b-col>{{ new_data }}</b-col>
+	</b-row>
+	<b-row></b-row>
+	<b-row class="">
+		<b-button block variant="primary" @click='roll_d()'>roll D</b-button>
 	</b-row>
 	<p>
 	<NuxtLink to="/about">
@@ -124,6 +127,9 @@ export default {
 			// let { list_of_str, i_atk, i_hit, i_wnd, i_arm, i_fnp, dice_to_hit, dice_to_wund, dice_armor_save, dice_fnp } = param_funct(data_form);
 			console.log(result_and_answer)
 			// console.log([this.v_slct_hit,this.v_slct_wound,this.v_slct_arm,this.v_slct_fnp,this.input_atacs])
+		},
+		roll_d(){
+
 		}
 	}
 }
@@ -159,8 +165,8 @@ function poll_funct(data_form) {
 				// console.log(brn_f)
 				brnpsum.push(brn_f);
 				const brn_reduce = brnpsum.reduce(reducer)
-				// const itogo_int = to_int(Math.round(brn_reduce));
-				let itogo_int = Math.floor(brn_reduce)
+				const itogo_int = to_int(Math.round(brn_reduce));
+				// let itogo_int = Math.floor(brn_reduce)
 				const itogo_float = to_float_two(brn_reduce);
 				ok_nums_list.push([itogo_int, itogo_float]);
 			}
@@ -221,13 +227,20 @@ function poll_funct(data_form) {
 				// }
 				// result_list_test.push([i, num_minus_one, current_num])
 					// string_list.push(result_pack(i, ok_nums_list[i - 1][0], num[0]))
-				}
+			}
+			console.log(list_of_object)
 			for (const [i, obj] of list_of_object.entries()) {
 				const atks = obj["atk"]
 				if (atks.length > 1){
 					const start_atk = atks[0]
 					const end_atk = atks[atks.length-1]
-					string_list.push(result_pack(start_atk +" - "+ end_atk, obj["from"], obj["to"]))
+					string_list.push(result_pack(start_atk +" - "+ end_atk + " roll D"+ (end_atk-start_atk+1), obj["from"], obj["to"]))
+					
+					// string_list.push(result_pack(start_atk +" - "+ end_atk, obj["from"], obj["to"]))
+					// string_list.push(result_pack(end_atk, obj["from"], obj["to"]))
+				}
+				else if (i < list_of_object.length-1 && list_of_object[i+1]["from"] == obj["to"]){
+						string_list.push(result_pack(atks[0], obj["from"], obj["to"]-1))
 				}
 				else{
 					string_list.push(result_pack(atks[0], obj["from"], obj["to"]))
@@ -235,7 +248,7 @@ function poll_funct(data_form) {
 			}
 			// string_list.unshift(result_pack(0 +" - "+ zero_wound, 0, zero_to))
 			// string_list.push(result_pack(hundred_wound +" - "+ i_atk, hundred_from, 100))
-			console.log(list_of_object)
+			// console.log(list_of_object)
 			}
 			// text_answer += string_list.join("\n");
 		else {
