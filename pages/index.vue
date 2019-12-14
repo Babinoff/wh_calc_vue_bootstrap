@@ -82,7 +82,9 @@
 	</b-row>
 	<b-table class="text-center text-light" fixed sticky-header head-variant="dark" foot-variant="dark" table-variant ="dark" striped hover :items="items"></b-table>
 	<b-row class="p-3 text-center bg-secondary text-light">
+		<label class="text-center w-100 text-light">
 		{{ answer_data }}
+		</label>
 	</b-row>
 	<b-row class="p-3"></b-row>
 	<b-row class="">
@@ -124,7 +126,10 @@ export default {
 		v_slct_arm: 'No',
 		v_slct_fnp: 'No',
 		answer_data: "",
-		items: [{wound:"", from:'', to:""}]
+		items: [{from:'', to:"", wound:""}],
+		myStyle:{
+		backgroundColor:"#16a085" 
+		}
 	}
   },
 	methods: {
@@ -233,7 +238,7 @@ function poll_funct(data_form) {
 			}
 		}
 		else {
-			text_answer += "\n Слишком большое значение атак,\n максимальное количество атак 100 \n";
+			text_answer += "\n Слишком большое значение атак, максимальное количество атак 100 \n";
 		}
 		
 	return [string_list, text_answer];
@@ -241,11 +246,11 @@ function poll_funct(data_form) {
 
 // pakc value to dict
 function result_pack(wound_value, from_value, to_value){
-	return {wound: wound_value, from: from_value, to: to_value}
+	return {from: from_value, to: to_value, wound: wound_value}
 }
 
 function create_object(i, from_value, to_value){
-	return {"atk": [i], "from": from_value, "to": to_value}
+	return {"from": from_value, "to": to_value, "atk": [i]}
 }
 
 function roll_funct2(b_text, list_of_str, text_answer, sprt) {
@@ -334,14 +339,14 @@ function dict_to_string(dic_string_list){
 body {
 	background: #363636;
 	text-align: center;
-	padding-top: 30px;
+	/* padding-top: 30px; */
 	height: 100%;
 	width: 100%;
 	position: absolute;
-	top: 0;
+	/* top: 0;
 	left: 0;
 	right: 0;
-	bottom: 0;
+	bottom: 0; */
 	font-family: 'Roboto';
 	color: #ffffff;
   }
