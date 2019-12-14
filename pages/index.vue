@@ -2,16 +2,14 @@
 <body>
   <b-container>
 	<b-row class="">
-	<div class="text-center w-100 p-3 bg-secondary text-light"> Warhammer Bernuly Calculator
+	<div class="text-center w-100 p-3 bg-secondary text-light"> 
 		<!-- v-resize-text="{minFontSize: '50px', maxFontSize: '100px'} -->
-	<!-- <h1 class="text-center w-100 p-3 bg-secondary text-light">Warhammer Bernuly Calculator</h1> -->
+	<h3 class="text-center w-100 p-3 bg-secondary text-light">Warhammer Bernuly Calculator</h3>
 	</div>
 	</b-row>
 	<form class=" " id="id_form">
-		<b-row class="p-1">
-			Number of attacks:
-		</b-row>
 		<b-row class=" ">
+			<label class="">Number of attacks:</label>
 			<b-form-input class="input" placeholder="attack counter" v-model="input_atacs"></b-form-input>
 		</b-row>
 		<b-row class="text-center">
@@ -82,36 +80,50 @@
 	<b-row class="p-1">
 		Results:
 	</b-row>
-	<b-table class="text-center" fixed sticky-header head-variant="dark" striped hover :items="items"></b-table>
-	<b-row class="text-center bg-secondary text-light">
-		<b-col>{{ new_data }}</b-col>
+	<b-table class="text-center text-light" fixed sticky-header head-variant="dark" foot-variant="dark" table-variant ="dark" striped hover :items="items"></b-table>
+	<b-row class="p-3 text-center bg-secondary text-light">
+		{{ answer_data }}
 	</b-row>
-	<b-row></b-row>
+	<b-row class="p-3"></b-row>
 	<b-row class="">
-		<b-button block variant="primary" @click='roll_d()'>roll D</b-button>
+		<b-col class="">
+			<b-form-input class="input" placeholder="attack counter" v-model="input_dice_value"></b-form-input>
+		</b-col>
+		<b-col class="">
+			<b-button block variant="primary" @click='roll_d()'>roll D</b-button>
+		</b-col>
 	</b-row>
-	<p>
+	<!-- <p>
 	<NuxtLink to="/about">
 		About page
 	</NuxtLink>
-	</p>
+	</p> -->
   </b-container>
+  <!-- <ol>
+  <todo-item></todo-item>
+</ol> -->
 </body>
 </template>
 
 
 <script>
+// import Vue from 'vue'
+// Vue.component('todo-item', {
+//   template: '<li>Это одна задача в списке</li>'
+// })
+
 export default {
 	components: {
 },
   data () {
     return {
+		input_dice_value: "100",
 		input_atacs: "55",
 		v_slct_hit: '2+',
 		v_slct_wound: '2+',
 		v_slct_arm: 'No',
 		v_slct_fnp: 'No',
-		new_data: "",
+		answer_data: "",
 		items: [{wound:"", from:'', to:""}]
 	}
   },
@@ -121,15 +133,12 @@ export default {
 			// const data_to_funct = []
 			// data_to_funct.push(data_form[0])
 			const result_and_answer = poll_funct(data_form)
-			this.new_data = result_and_answer[1]
+			this.answer_data = result_and_answer[1]
 			this.items = result_and_answer[0]
-			// this.items = [{wound:"1", from: '0', to: "10" },{wound:"2", from: '10', to: "5" },{wound:"3", from: '50', to: "100" }]
-			// let { list_of_str, i_atk, i_hit, i_wnd, i_arm, i_fnp, dice_to_hit, dice_to_wund, dice_armor_save, dice_fnp } = param_funct(data_form);
 			console.log(result_and_answer)
-			// console.log([this.v_slct_hit,this.v_slct_wound,this.v_slct_arm,this.v_slct_fnp,this.input_atacs])
 		},
 		roll_d(){
-
+			this.answer_data = rand_dice2(this.input_dice_value)
 		}
 	}
 }
@@ -176,8 +185,8 @@ function poll_funct(data_form) {
 			let hundred_from = 0
 			let hundred_wound = 0
 			let count = 0
-			console.log(ok_nums_list.length)
-			console.log(ok_nums_list)
+			// console.log(ok_nums_list.length)
+			// console.log(ok_nums_list)
 			let result_list_test = []
 			let list_of_object = []
 			for (const [i, num] of ok_nums_list.entries()) {
@@ -206,38 +215,14 @@ function poll_funct(data_form) {
 					list_of_object.push(create_object(i, num_minus_one, current_num))
 					}
 				}
-				// if (current_num == 0){
-				// 	zero_wound = i
-				// }
-				// else if (i != 0 && num_minus_one == 0) {
-				// 	zero_to = current_num
-				// }
-				// else if (i != 0 && num_minus_one != 100 && current_num == 100) {
-				// 		hundred_from = num_minus_one
-				// 		hundred_wound = i
-				// 	}
-				// else if (i != 0 && num_minus_one != 100 && current_num != 100) {
-				// 	if (current_num != num_minus_one){
-				// 		num_minus_one += 1
-				// 	}
-				// 	string_list.push(result_pack(i, num_minus_one, current_num))	
-				// }
-				// else {
-				// 	console.log("how you see this? post me a leter")
-				// }
-				// result_list_test.push([i, num_minus_one, current_num])
-					// string_list.push(result_pack(i, ok_nums_list[i - 1][0], num[0]))
 			}
-			console.log(list_of_object)
+			// console.log(list_of_object)
 			for (const [i, obj] of list_of_object.entries()) {
 				const atks = obj["atk"]
 				if (atks.length > 1){
 					const start_atk = atks[0]
 					const end_atk = atks[atks.length-1]
 					string_list.push(result_pack(start_atk +" - "+ end_atk + " roll D"+ (end_atk-start_atk+1), obj["from"], obj["to"]))
-					
-					// string_list.push(result_pack(start_atk +" - "+ end_atk, obj["from"], obj["to"]))
-					// string_list.push(result_pack(end_atk, obj["from"], obj["to"]))
 				}
 				else if (i < list_of_object.length-1 && list_of_object[i+1]["from"] == obj["to"]){
 						string_list.push(result_pack(atks[0], obj["from"], obj["to"]-1))
@@ -246,11 +231,7 @@ function poll_funct(data_form) {
 					string_list.push(result_pack(atks[0], obj["from"], obj["to"]))
 				}
 			}
-			// string_list.unshift(result_pack(0 +" - "+ zero_wound, 0, zero_to))
-			// string_list.push(result_pack(hundred_wound +" - "+ i_atk, hundred_from, 100))
-			// console.log(list_of_object)
-			}
-			// text_answer += string_list.join("\n");
+		}
 		else {
 			text_answer += "\n Слишком большое значение атак,\n максимальное количество атак 100 \n";
 		}
@@ -280,7 +261,7 @@ function roll_funct2(b_text, list_of_str, text_answer, sprt) {
 	else{
 		text_answer += "Слишком большие значения, максимальное количество граней кубика 100, максимальное количество бросков 100."
 	}
-	test_text += "list_of_str.length: " + list_of_str.length + "\n"; // TEST TEXT
+	// test_text += "list_of_str.length: " + list_of_str.length + "\n"; // TEST TEXT
 	return text_answer;// return { list_of_str, text_answer };
 }
 //#endregion comands functions
@@ -333,13 +314,13 @@ function rand_dice2(max, count = "1"){
 	for (const dice of dice_list_result){
 		dice_dic_results[dice].push(dice)
 	}
-	return dice_dic_results;
+	return dice_list_result[0]//dice_dic_results;
 }
 
 
 function dict_to_string(dic_string_list){
 	let string_list = []
-	for (keys_and_items of Object.entries(dic_string_list)){
+	for (const keys_and_items of Object.entries(dic_string_list)){
 		string_list.push("```" + "_[" + keys_and_items.join("]=[") + "]_" + "```" + "*" + "общее количество: " + keys_and_items[1].length + "*")
 	}
 	let one_string = string_list.join("\n")
@@ -348,3 +329,20 @@ function dict_to_string(dic_string_list){
 //#endregion  core func
 
 </script>
+
+<style scoped>
+body {
+	background: #363636;
+	text-align: center;
+	padding-top: 30px;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	font-family: 'Roboto';
+	color: #ffffff;
+  }
+</style>
