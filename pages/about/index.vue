@@ -1,7 +1,8 @@
 <template>
   <div class="content has-text-primary column is-6">
 	<div class='calculator-button-container'>
-		<div>
+		/wh/
+		<!-- <div>
 			<button class="button">Button</button>
 		</div>
 		<div class='calculator-button-row'>
@@ -15,19 +16,15 @@
 			<NuxtLink to="/" class="button is-medium is-info hvr-wobble-vertical">
 				Another button
 			</NuxtLink>
-		</p>
+		</p> -->
 		<p>
 			<NuxtLink to="/">
 				Back to calc
 			</NuxtLink>
 		</p>
-		<input class="scroll-test" placeholder="ввод текста" ref="myTestField">
-		<!-- <p>Введённое сообщение: {{ message }}</p> -->
-			<p>Тестовый текст: {{ new_data }}</p>
-		<!-- <input type="text" size="40"> -->
 		<p>
 			<output name="result">0</output>
-		</p>
+		</p> -->
 	</div>
 	
   </div>

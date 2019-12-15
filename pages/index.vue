@@ -95,11 +95,11 @@
 			<b-button block variant="primary" @click='roll_d()'>roll D</b-button>
 		</b-col>
 	</b-row>
-	<!-- <p>
+	<p>
 	<NuxtLink to="/about">
 		About page
 	</NuxtLink>
-	</p> -->
+	</p>
   </b-container>
   <!-- <ol>
   <todo-item></todo-item>
@@ -335,7 +335,7 @@ function dict_to_string(dic_string_list){
 
 </script>
 
-<style scoped>
+<style>
 body {
 	background: #363636;
 	text-align: center;
