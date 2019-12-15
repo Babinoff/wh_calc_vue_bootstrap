@@ -75,7 +75,7 @@
 	</form>
 	<br>
 	<b-row class="">
-		<b-button block variant="primary" @click='roll()'>ROLL</b-button>
+		<b-button block variant="primary" @click='roll()'>Create Results</b-button>
 	</b-row>
 	<b-row class="p-1">
 		Results:
